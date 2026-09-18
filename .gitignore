@@ -5,3 +5,4 @@ dist/
 .DS_Store
 # stažená kopie starého webu – jen pro referenci
 _puvodni-web/
+.wrangler/
