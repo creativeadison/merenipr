@@ -1,0 +1,12 @@
+// Nastavení pro Cloudflare: web je složka dist/ se statickými stránkami (vzniká příkazem npm run build).
+{
+  "name": "merenipr",
+  "compatibility_date": "2026-09-01",
+  "assets": {
+    "directory": "./dist",
+    // /kvalitativni-indexy se načte ze souboru kvalitativni-indexy.html (stejné adresy jako na starém webu)
+    "html_handling": "auto-trailing-slash",
+    // neexistující adresa ukáže naši stránku 404
+    "not_found_handling": "404-page"
+  }
+}
