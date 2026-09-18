@@ -1,0 +1,24 @@
+---
+import type { CollectionEntry } from 'astro:content';
+import { dobaCteni } from '../lib/utils';
+
+interface Props { clanek: CollectionEntry<'clanky'> }
+const { clanek } = Astro.props;
+const { title, description, typ, temata, image } = clanek.data;
+---
+<article class="karta">
+  <div class="karta-obrazek">
+    {image
+      ? <img src={image} alt="" loading="lazy" width="640" height="360" />
+      : <div class="karta-obrazek-prazdny" aria-hidden="true" style="width:100%;height:100%">{typ === 'Checklist' ? '✓' : title.charAt(0)}</div>}
+  </div>
+  <div class="karta-telo">
+    <div class="stitky">
+      <span class="stitek stitek-typ">{typ}</span>
+      {temata.slice(0, 2).map((t) => <span class="stitek">{t}</span>)}
+    </div>
+    <h3><a href={`/${clanek.id}`}>{title}</a></h3>
+    <p>{description}</p>
+    <span class="meta">{dobaCteni(clanek.body)} min čtení</span>
+  </div>
+</article>

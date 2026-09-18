@@ -1,0 +1,80 @@
+---
+import Logo from './Logo.astro';
+import { nav } from '../data/site';
+
+const cesta = Astro.url.pathname.replace(/\.html$/, '');
+// článek Knowledge Base nebo rozhovor zvýrazní správnou položku menu
+const aktivni = (href: string) => cesta === href || (Astro.props.sekce && Astro.props.sekce === href);
+---
+<header class="hlavicka">
+  <div class="container lista">
+    <Logo />
+    <nav aria-label="Hlavní menu">
+      <button class="menu-tlacitko" aria-expanded="false" aria-controls="menu" aria-label="Otevřít menu">
+        <span></span><span></span><span></span>
+      </button>
+      <ul id="menu">
+        {nav.map((p) => (
+          <li><a href={p.href} aria-current={aktivni(p.href) ? 'page' : undefined}>{p.label}</a></li>
+        ))}
+        <li><a href="#newsletter" class="btn btn-primary">Odebírat novinky</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const tlacitko = document.querySelector<HTMLButtonElement>('.menu-tlacitko');
+  const menu = document.getElementById('menu');
+  tlacitko?.addEventListener('click', () => {
+    const otevreno = tlacitko.getAttribute('aria-expanded') === 'true';
+    tlacitko.setAttribute('aria-expanded', String(!otevreno));
+    menu?.classList.toggle('otevrene', !otevreno);
+  });
+  menu?.querySelectorAll('a').forEach((a) =>
+    a.addEventListener('click', () => {
+      menu.classList.remove('otevrene');
+      tlacitko?.setAttribute('aria-expanded', 'false');
+    }),
+  );
+</script>
+
+<style>
+  .hlavicka {
+    position: sticky; top: 0; z-index: 50;
+    background: rgba(255, 255, 255, 0.88);
+    backdrop-filter: saturate(180%) blur(14px);
+    -webkit-backdrop-filter: saturate(180%) blur(14px);
+    border-bottom: 1px solid var(--linka);
+  }
+  .lista { display: flex; align-items: center; justify-content: space-between; height: 72px; }
+  ul { list-style: none; margin: 0; padding: 0; display: flex; align-items: center; gap: 8px; }
+  ul a:not(.btn) {
+    display: block; padding: 8px 14px; border-radius: 999px;
+    color: var(--fialova-tmava); text-decoration: none; font-weight: 500; font-size: 0.97rem;
+  }
+  ul a:not(.btn):hover { color: var(--magenta); }
+  ul a[aria-current='page'] { background: var(--pozadi-jemne); color: var(--fialova); }
+  .btn { padding: 10px 18px; margin-left: 8px; }
+  .menu-tlacitko { display: none; }
+
+  @media (max-width: 820px) {
+    .menu-tlacitko {
+      display: grid; gap: 5px; place-content: center;
+      width: 44px; height: 44px; border: 0; background: transparent; cursor: pointer;
+    }
+    .menu-tlacitko span { display: block; width: 22px; height: 2px; background: var(--fialova-tmava); border-radius: 2px; transition: transform .2s, opacity .2s; }
+    .menu-tlacitko[aria-expanded='true'] span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .menu-tlacitko[aria-expanded='true'] span:nth-child(2) { opacity: 0; }
+    .menu-tlacitko[aria-expanded='true'] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+    ul {
+      display: none; position: absolute; left: 0; right: 0; top: 72px;
+      flex-direction: column; align-items: stretch; gap: 4px;
+      padding: 12px 20px 24px; background: #fff; border-bottom: 1px solid var(--linka);
+      box-shadow: 0 20px 40px rgba(43, 28, 86, .12);
+    }
+    ul.otevrene { display: flex; }
+    ul a:not(.btn) { padding: 12px 14px; font-size: 1.05rem; }
+    .btn { margin: 8px 0 0; justify-content: center; }
+  }
+</style>

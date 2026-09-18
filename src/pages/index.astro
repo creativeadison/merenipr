@@ -1,0 +1,366 @@
+---
+import Base from '../layouts/Base.astro';
+import KartaClanku from '../components/KartaClanku.astro';
+import { nactiClanky, nactiRozhovory } from '../lib/utils';
+import { autorka, links } from '../data/site';
+
+const clanky = (await nactiClanky()).slice(0, 3);
+const rozhovory = await nactiRozhovory();
+const hlavniRozhovor = rozhovory[0];
+
+const vyzvy = [
+  'Management často nerozumí metrikám PR nebo jim nepřikládá váhu.',
+  'Metriky jsou nesjednocené. Bez hlubší znalosti metodiky je snadné pracovat se zkreslenými daty.',
+  'Globální centrály vyžadují reportovat v metrikách, které lokálně nedávají smysl.',
+  'Sofistikovanější měření stojí čas i peníze — a investice do evaluace PR se obtížně prosazuje.',
+];
+
+const urovne = [
+  { nazev: 'Aktivity', text: 'Zajímá nás, které plánované kroky a v jaké míře byly skutečně realizovány.', priklady: 'počet vydaných tiskových zpráv, zorganizovaných eventů, odeslaných newsletterů' },
+  { nazev: 'Výstupy', text: 'Zjišťujeme, co komunikace „vyprodukovala“ — dosah a kvalitu pokrytí.', priklady: 'počet mediálních výstupů, návštěvnost webu, průměrná frekvence oslovení' },
+  { nazev: 'Efekt', text: 'Sledujeme vliv komunikace na cílovou skupinu, její názory, postoje a chování.', priklady: 'vybavení si reklamy, interakce na sociálních sítích, spokojenost návštěvníků akce' },
+  { nazev: 'Dopad', text: 'Měříme reálný přínos pro organizaci nebo společnost: strategické a byznysové výsledky.', priklady: 'nárůst prodejů, změna spokojenosti zaměstnanců, reputační index' },
+];
+---
+<Base>
+  <!-- ÚVOD -->
+  <section class="hero">
+    <div class="container hero-obal">
+      <div class="hero-text">
+        <span class="eyebrow">Web o měření a evaluaci komunikace</span>
+        <h1>Měřme to, <span class="zvyrazneni">na čem záleží.</span></h1>
+        <p class="hero-perex">
+          Měření PR a evaluace komunikace je téma, které nenechá v klidu snad žádného profesionála v oboru.
+          Je úzce provázané s tím, jak dobře, efektivně a s jakým dopadem děláme naši práci — i jak jsme schopni demonstrovat naši hodnotu.
+        </p>
+        <div class="hero-tlacitka">
+          <a href="/knowledge-base" class="btn btn-primary">Prozkoumat Knowledge Base</a>
+          <a href="/rozhovory-mereni-pr-v-cr" class="btn btn-ghost-light">Číst rozhovory</a>
+        </div>
+      </div>
+
+      <div class="hero-graf">
+        <div class="samolepka">
+          <img src="/images/kill-ave-200x40mm-page-0001.jpg" alt="KILL AVE" width="2363" height="473" />
+        </div>
+        <div class="graf-karta" aria-hidden="true">
+          <div class="graf-hlavicka">
+            <span>Od výstupů k dopadu</span>
+            <span class="ave">AVE</span>
+          </div>
+          <div class="sloupce">
+            {urovne.map((u, i) => (
+              <div class="sloupec" style={`--v:${28 + i * 22}%; --d:${i * 120}ms`}>
+                <div class="bar"></div>
+                <span>{u.nazev}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROZCESTNÍK -->
+  <section class="rozcestnik">
+    <div class="container rozcestnik-mrizka">
+      <a href="/rozhovory-mereni-pr-v-cr" class="dlazdice">
+        <span class="eyebrow">Rozhovory</span>
+        <h2>Jak o měření PR přemýšlejí lidé z praxe</h2>
+        <p>Přední čeští komunikační manažeři, ředitelé agentur a CEOs. Jejich zkušenosti z praxe, bez příkras.</p>
+        <span class="odkaz-sipka">Přejít na rozhovory</span>
+      </a>
+      <a href="/knowledge-base" class="dlazdice">
+        <span class="eyebrow">Knowledge Base</span>
+        <h2>Metodiky, případové studie a checklisty</h2>
+        <p>Barcelonské principy, AMEC framework, metriky pro media relations a kvalitativní indexy. Vše na jednom místě.</p>
+        <span class="odkaz-sipka">Přejít do Knowledge Base</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- VÝZVY -->
+  <section class="sekce">
+    <div class="container">
+      <div class="nadpis-sekce">
+        <span class="eyebrow">Výzvy v praxi</span>
+        <h2>S čím se v praxi potýkáme</h2>
+      </div>
+      <ol class="vyzvy">
+        {vyzvy.map((v, i) => (
+          <li><span class="cislo">#{i + 1}</span><p>{v}</p></li>
+        ))}
+      </ol>
+    </div>
+  </section>
+
+  <!-- CITÁT -->
+  <section class="citat-sekce">
+    <div class="container container-uzky">
+      <blockquote>
+        <p>„Měření PR nezačíná metrikou. Začíná otázkou: co chceme změnit? Kdo si ji klade, plánuje lépe — a komunikuje lépe.“</p>
+        <footer>
+          <img src={autorka.foto} alt="" width="56" height="56" loading="lazy" />
+          <span><strong>{autorka.jmeno}</strong>CEO agentury Adison, zakladatelka iniciativy KILL AVE</span>
+        </footer>
+      </blockquote>
+    </div>
+  </section>
+
+  <!-- FRAMEWORK -->
+  <section class="sekce sekce-jemna">
+    <div class="container">
+      <div class="nadpis-sekce">
+        <span class="eyebrow">Základní model</span>
+        <h2>Integrovaný evaluační rámec</h2>
+        <p>
+          Mezinárodně uznávaný přístup k měření a evaluaci PR vychází z Barcelonských principů a práce expertů sdružených v globální organizaci AMEC.
+          Jejich Integrated Evaluation Framework definuje úrovně, které by mělo každé hodnocení pokrývat — od plánování a vstupů až po vyhodnocení dopadu a zapracování poznatků.
+        </p>
+      </div>
+      <ol class="framework">
+        {urovne.map((u, i) => (
+          <li style={`--i:${i}`}>
+            <span class="uroven-cislo">úroveň {i + 1}</span>
+            <h3>{u.nazev}</h3>
+            <p>{u.text}</p>
+            <p class="priklady"><span>Příklady metrik</span>{u.priklady} atp.</p>
+          </li>
+        ))}
+      </ol>
+      <p class="framework-poznamka">
+        <strong>Strategické plánování</strong> uzavírá cyklus: sledování metrik napříč všemi úrovněmi umožňuje optimalizaci a efektivní plánování budoucích komunikačních aktivit.
+        <a href="/framework-proc-a-jak-planovat-a-merit" class="odkaz-sipka">Jak s frameworkem pracovat</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- NEJNOVĚJŠÍ Z KNOWLEDGE BASE -->
+  <section class="sekce">
+    <div class="container">
+      <div class="nadpis-radek">
+        <div class="nadpis-sekce">
+          <span class="eyebrow">Knowledge Base</span>
+          <h2>Začněte tady</h2>
+        </div>
+        <a href="/knowledge-base" class="btn btn-outline">Všechny články</a>
+      </div>
+      <div class="mrizka">
+        {clanky.map((c) => <KartaClanku clanek={c} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ROZHOVOR -->
+  {hlavniRozhovor && (
+    <section class="sekce sekce-jemna">
+      <div class="container rozhovor-upoutavka">
+        <a href={`/${hlavniRozhovor.id}`} class="rozhovor-foto">
+          <img src={hlavniRozhovor.data.foto} alt={hlavniRozhovor.data.jmeno} loading="lazy" width="800" height="533" />
+        </a>
+        <div>
+          <span class="eyebrow">Rozhovor</span>
+          <h2><a href={`/${hlavniRozhovor.id}`}>{hlavniRozhovor.data.title}</a></h2>
+          <p class="kdo"><strong>{hlavniRozhovor.data.jmeno}</strong> · {hlavniRozhovor.data.pozice}, {hlavniRozhovor.data.firma}</p>
+          <p>{hlavniRozhovor.data.description}</p>
+          <a href={`/${hlavniRozhovor.id}`} class="odkaz-sipka">Přečíst rozhovor</a>
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- NÁSTROJE -->
+  <section class="sekce">
+    <div class="container">
+      <div class="nadpis-sekce">
+        <span class="eyebrow">Nástroje</span>
+        <h2>Jak vám pomůžeme změnit přístup k měření</h2>
+      </div>
+      <div class="nastroje">
+        <article class="nastroj">
+          <img src="/images/gemini-generated-image-pw8tp3pw8tp3pw8t.png" alt="Metrik.world" loading="lazy" width="600" height="600" />
+          <div>
+            <span class="stitek stitek-typ">Zdarma</span>
+            <h3>Metrik.world</h3>
+            <p>Ztrácíte se v metrikách? Metrik.world je interaktivní databáze metrik pro měření a vyhodnocování komunikace. Pomůže vám vybrat správné metriky, pochopit jejich přínosy i limity a propojit měření s Integrated Evaluation Framework.</p>
+            <a href={links.metrik} class="odkaz-sipka" target="_blank" rel="noopener">Přejít na Metrik.world</a>
+          </div>
+        </article>
+        <article class="nastroj">
+          <img src="/images/gemini-generated-image-lycyjalycyjalycy.png" alt="PR MeasureUP!" loading="lazy" width="600" height="600" />
+          <div>
+            <span class="stitek stitek-typ">Workshop pro váš tým</span>
+            <h3>PR MeasureUP!</h3>
+            <p>Měření není jen report. Je to kompas strategie. Workshop pomáhá interním komunikačním týmům přejít od dosahu k dopadu — sestavit funkční evaluační matrix, vybrat správné metriky a získat argumenty, které obstojí před vedením. Metodologie vychází ze standardů AMEC a přizpůsobujeme ji každému týmu na míru.</p>
+            <a href={links.workshop} class="odkaz-sipka" target="_blank" rel="noopener">Zjistit více o workshopu</a>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- O AUTORCE -->
+  <section class="sekce sekce-jemna">
+    <div class="container autorka">
+      <img src={autorka.foto} alt={autorka.jmeno} loading="lazy" width="600" height="785" />
+      <div>
+        <span class="eyebrow">O autorce</span>
+        <h2>{autorka.jmeno} — CEO, Adison</h2>
+        <p>{autorka.kratce}</p>
+        <a href={links.linkedin} class="odkaz-sipka" target="_blank" rel="noopener">LinkedIn</a>
+        <div class="adison">
+          <h3>O agentuře Adison</h3>
+          <p>Moderní PR agentura, která si zakládá na komunikaci s měřitelným efektem. Pracujeme AI ready, integrujeme kreativitu s daty a pomáháme značkám být nejen vidět — ale dosáhnout výsledků.</p>
+          <a href={links.adison} class="odkaz-sipka" target="_blank" rel="noopener">Více o agentuře Adison</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* úvod */
+  .hero {
+    position: relative; overflow: hidden; color: #fff;
+    background: radial-gradient(900px 500px at 85% 10%, rgba(232, 55, 146, .45), transparent 60%),
+                radial-gradient(700px 500px at 0% 100%, rgba(82, 55, 146, .9), transparent 60%),
+                var(--fialova-tmava);
+    padding: clamp(64px, 10vw, 128px) 0 clamp(72px, 10vw, 136px);
+  }
+  .hero-obal { display: grid; grid-template-columns: 1.25fr 1fr; gap: 56px; align-items: center; }
+  .hero h1 { color: #fff; }
+  .hero .eyebrow { color: #ff8cc6; }
+  .zvyrazneni { background: linear-gradient(90deg, #ff7fc0, #e83792); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .hero-perex { font-size: 1.15rem; color: rgba(255, 255, 255, .8); max-width: 560px; }
+  .hero-tlacitka { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+
+  .hero-graf { position: relative; padding-top: 44px; }
+  .samolepka {
+    position: absolute; top: 0; left: -28px; z-index: 2; width: min(92%, 400px);
+    background: #fff; border-radius: 16px; padding: 16px 22px;
+    transform: rotate(-4deg); box-shadow: 0 18px 40px rgba(0, 0, 0, .35);
+    animation: nalepit .6s cubic-bezier(.2, .9, .3, 1.3) .5s backwards;
+    transition: transform .35s cubic-bezier(.2, .9, .3, 1.3), box-shadow .35s;
+  }
+  /* po najetí myší se samolepka narovná a „odlepí“ */
+  .samolepka:hover { transform: rotate(0deg) scale(1.05) translateY(-4px); box-shadow: 0 28px 56px rgba(0, 0, 0, .45); }
+  @keyframes nalepit { from { opacity: 0; transform: rotate(-12deg) scale(1.15); } to { opacity: 1; transform: rotate(-4deg) scale(1); } }
+  @media (prefers-reduced-motion: reduce) { .samolepka { animation: none; } }
+  .graf-karta {
+    background: rgba(255, 255, 255, .07); border: 1px solid rgba(255, 255, 255, .14);
+    border-radius: var(--radius-velky); padding: 72px 26px 20px;
+    backdrop-filter: blur(6px);
+  }
+  .graf-hlavicka { display: flex; justify-content: space-between; align-items: center; font-size: .85rem; color: rgba(255, 255, 255, .7); margin-bottom: 18px; }
+  .ave { font-weight: 800; letter-spacing: .06em; color: rgba(255, 255, 255, .45); text-decoration: line-through; text-decoration-color: var(--magenta); text-decoration-thickness: 3px; }
+  .sloupce { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; height: 250px; align-items: end; }
+  .sloupec { display: flex; flex-direction: column; justify-content: flex-end; height: 100%; gap: 10px; }
+  .sloupec span { font-size: .78rem; color: rgba(255, 255, 255, .8); text-align: center; }
+  .bar {
+    height: var(--v); border-radius: 12px 12px 6px 6px;
+    background: linear-gradient(180deg, #ff6fb5, var(--magenta) 40%, var(--fialova));
+    transform-origin: bottom; animation: rust .9s cubic-bezier(.2, .8, .2, 1) backwards; animation-delay: var(--d);
+    transition: transform .3s cubic-bezier(.2, .9, .3, 1.3), filter .3s;
+  }
+  .sloupec:hover .bar { transform: scaleY(1.07); filter: brightness(1.15) saturate(1.1); }
+  .sloupec span { transition: color .2s; }
+  .sloupec:hover span { color: #fff; font-weight: 600; }
+  .ave { transition: color .3s, text-decoration-thickness .3s; }
+  .graf-karta:hover .ave { color: rgba(255, 255, 255, .25); text-decoration-thickness: 5px; }
+  @keyframes rust { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+  @media (prefers-reduced-motion: reduce) { .bar { animation: none; } }
+
+  /* rozcestník */
+  .rozcestnik { margin-top: -56px; position: relative; z-index: 2; }
+  .rozcestnik-mrizka { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .dlazdice {
+    display: block; background: #fff; border-radius: var(--radius-velky); padding: 34px 36px;
+    box-shadow: var(--stin-hover); text-decoration: none; color: var(--text); transition: transform .2s;
+    border: 1px solid var(--linka);
+  }
+  .dlazdice:hover { transform: translateY(-4px); color: var(--text); }
+  .dlazdice h2 { font-size: 1.45rem; }
+  .dlazdice p { color: var(--text-jemny); }
+  .dlazdice .odkaz-sipka { color: var(--magenta); }
+
+  /* výzvy */
+  .vyzvy { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
+  .vyzvy li {
+    padding: 28px 24px; border-radius: var(--radius); background: var(--pozadi-jemne);
+    border: 1px solid transparent; transition: transform .25s, background .25s, box-shadow .25s, border-color .25s;
+  }
+  .vyzvy li:hover { transform: translateY(-4px); background: #fff; border-color: var(--linka); box-shadow: var(--stin-hover); }
+  .vyzvy .cislo { transition: transform .3s cubic-bezier(.2, .9, .3, 1.3); transform-origin: left bottom; }
+  .vyzvy li:hover .cislo { transform: scale(1.12); }
+  .vyzvy .cislo { display: block; font-size: 2.4rem; font-weight: 800; line-height: 1; margin-bottom: 14px; background: var(--gradient); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .vyzvy p { margin: 0; color: var(--fialova-tmava); font-weight: 500; line-height: 1.55; }
+
+  /* citát */
+  .citat-sekce { padding: 0 0 clamp(56px, 8vw, 104px); }
+  blockquote { margin: 0; text-align: center; }
+  blockquote p { font-size: clamp(1.35rem, 2.6vw, 1.9rem); font-weight: 600; line-height: 1.4; color: var(--fialova-tmava); letter-spacing: -0.01em; }
+  blockquote footer { display: inline-flex; align-items: center; gap: 14px; text-align: left; font-size: .92rem; color: var(--text-jemny); }
+  blockquote footer img { width: 56px; height: 56px; border-radius: 50%; object-fit: cover; object-position: top; }
+  blockquote footer strong { display: block; color: var(--fialova-tmava); }
+
+  /* framework */
+  .framework { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .framework li { background: #fff; border-radius: var(--radius); padding: 0 0 22px; overflow: hidden; border: 1px solid var(--linka); transition: transform .25s, box-shadow .25s; }
+  .framework li:hover { transform: translateY(-4px); box-shadow: var(--stin-hover); }
+  .framework .uroven-cislo, .framework h3 { display: block; padding: 0 22px; color: #fff; margin: 0; background: color-mix(in srgb, var(--magenta) calc(100% - var(--i) * 30%), var(--fialova)); }
+  .framework .uroven-cislo { padding-top: 18px; font-size: .8rem; opacity: .95; }
+  .framework h3 { font-size: 1.5rem; font-weight: 800; padding-bottom: 18px; text-transform: uppercase; letter-spacing: .01em; }
+  .framework p { padding: 0 22px; margin: 18px 0 0; font-size: .95rem; line-height: 1.6; }
+  .framework .priklady { color: var(--text-jemny); font-size: .88rem; }
+  .framework .priklady span { display: block; font-size: .72rem; text-transform: uppercase; letter-spacing: .1em; color: var(--magenta); font-weight: 600; margin-bottom: 4px; }
+  .framework-poznamka { margin: 28px 0 0; max-width: 820px; color: var(--text-jemny); }
+  .framework-poznamka strong { color: var(--fialova-tmava); }
+  .framework-poznamka .odkaz-sipka { margin-left: 6px; }
+
+  .nadpis-radek { display: flex; justify-content: space-between; align-items: flex-end; gap: 20px; flex-wrap: wrap; margin-bottom: 40px; }
+  .nadpis-radek .nadpis-sekce { margin: 0; }
+
+  /* rozhovor */
+  .rozhovor-upoutavka { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
+  .rozhovor-foto img { border-radius: var(--radius-velky); aspect-ratio: 3 / 2; object-fit: cover; box-shadow: var(--stin-hover); }
+  .rozhovor-upoutavka h2 { font-size: clamp(1.4rem, 2.4vw, 1.9rem); }
+  .rozhovor-upoutavka h2 a { color: inherit; text-decoration: none; }
+  .rozhovor-upoutavka h2 a:hover { color: var(--magenta); }
+  .kdo { color: var(--text-jemny); font-size: .95rem; }
+  .kdo strong { color: var(--fialova-tmava); }
+
+  /* nástroje */
+  .nastroje { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .nastroj { display: grid; grid-template-columns: 200px 1fr; gap: 24px; padding: 24px; border-radius: var(--radius-velky); border: 1px solid var(--linka); box-shadow: var(--stin); align-items: start; }
+  .nastroj { transition: box-shadow .25s, border-color .25s; }
+  .nastroj:hover { box-shadow: var(--stin-hover); border-color: transparent; }
+  .nastroj img { border-radius: var(--radius); aspect-ratio: 1; object-fit: cover; transition: transform .35s cubic-bezier(.2, .9, .3, 1.3); }
+  .nastroj:hover img { transform: rotate(-3deg) scale(1.04); }
+  .nastroj h3 { font-size: 1.4rem; margin: 12px 0 8px; }
+  .nastroj p { color: var(--text-jemny); font-size: .95rem; line-height: 1.6; }
+
+  /* autorka */
+  .autorka { display: grid; grid-template-columns: 340px 1fr; gap: 56px; align-items: center; }
+  .autorka > img { border-radius: var(--radius-velky); aspect-ratio: 4 / 5; object-fit: cover; object-position: top; }
+  .adison { margin-top: 36px; padding-top: 28px; border-top: 1px solid var(--linka); }
+  .adison p { color: var(--text-jemny); }
+
+  @media (max-width: 1000px) {
+    .vyzvy, .framework { grid-template-columns: 1fr 1fr; }
+    .nastroje { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 820px) {
+    .hero-obal, .rozcestnik-mrizka, .rozhovor-upoutavka, .autorka { grid-template-columns: 1fr; }
+    .hero-graf { order: 2; }
+    .samolepka { left: -6px; }
+    .sloupce { height: 180px; }
+    .autorka > img { max-width: 320px; }
+    .rozhovor-upoutavka { gap: 28px; }
+    .dlazdice { padding: 28px 24px; }
+  }
+  @media (max-width: 560px) {
+    .vyzvy, .framework { grid-template-columns: 1fr; }
+    .nastroj { grid-template-columns: 1fr; }
+    .nastroj img { max-width: 160px; }
+  }
+</style>

@@ -1,0 +1,119 @@
+---
+import Base from '../layouts/Base.astro';
+import KartaClanku from '../components/KartaClanku.astro';
+import { nactiClanky, proHledani } from '../lib/utils';
+
+const clanky = await nactiClanky();
+const temata = [...new Set(clanky.flatMap((c) => c.data.temata))].sort((a, b) => a.localeCompare(b, 'cs'));
+const pocetPodleTematu = Object.fromEntries(temata.map((t) => [t, clanky.filter((c) => c.data.temata.includes(t)).length]));
+---
+<Base
+  title="Knowledge Base"
+  description="Metodiky, checklisty a články o měření PR: Barcelonské principy 4.0, AMEC Integrated Evaluation Framework, metriky pro media relations a kvalitativní indexy."
+>
+  <header class="kb-hlavicka">
+    <div class="container">
+      <span class="eyebrow">Knowledge Base</span>
+      <h1>Vše o měření PR na jednom místě</h1>
+      <p>Metodiky, checklisty a praktické návody. Vyhledávejte podle klíčových slov nebo filtrujte podle tématu.</p>
+
+      <div class="hledani">
+        <svg viewBox="0 0 24 24" width="22" height="22" aria-hidden="true"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        <label for="hledat" class="sr">Hledat v Knowledge Base</label>
+        <input id="hledat" type="search" placeholder="Hledat, např. AVE, sentiment, share of voice…" autocomplete="off" />
+      </div>
+
+      <div class="filtry" role="group" aria-label="Filtrovat podle tématu">
+        <button type="button" class="filtr" data-tema="" aria-pressed="true">Vše <span>{clanky.length}</span></button>
+        {temata.map((t) => (
+          <button type="button" class="filtr" data-tema={t} aria-pressed="false">{t} <span>{pocetPodleTematu[t]}</span></button>
+        ))}
+      </div>
+    </div>
+  </header>
+
+  <section class="sekce vysledky-sekce">
+    <div class="container">
+      <p class="pocet" aria-live="polite"></p>
+      <div class="mrizka" id="vysledky">
+        {clanky.map((c) => (
+          <div
+            class="polozka"
+            data-temata={c.data.temata.join('|')}
+            data-text={proHledani(`${c.data.title} ${c.data.description} ${c.data.temata.join(' ')} ${c.data.typ} ${c.body}`)}
+          >
+            <KartaClanku clanek={c} />
+          </div>
+        ))}
+      </div>
+      <div class="nic" hidden>
+        <p><strong>Nic jsme nenašli.</strong> Zkuste jiné slovo, nebo <button type="button" class="zrusit">zrušte filtry</button>.</p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script>
+  const bezDiakritiky = (s: string) => s.normalize('NFD').replace(/[̀-ͯ]/g, '').toLowerCase().trim();
+
+  const vstup = document.getElementById('hledat') as HTMLInputElement;
+  const filtry = document.querySelectorAll<HTMLButtonElement>('.filtr');
+  const polozky = document.querySelectorAll<HTMLElement>('.polozka');
+  const pocet = document.querySelector('.pocet')!;
+  const nic = document.querySelector<HTMLElement>('.nic')!;
+
+  let tema = new URLSearchParams(location.search).get('tema') ?? '';
+
+  function aktualizuj() {
+    const slova = bezDiakritiky(vstup.value).split(/\s+/).filter(Boolean);
+    let zobrazeno = 0;
+    polozky.forEach((p) => {
+      const odpovidaTema = !tema || p.dataset.temata!.split('|').includes(tema);
+      const odpovidaText = slova.every((s) => p.dataset.text!.includes(s));
+      const ukazat = odpovidaTema && odpovidaText;
+      p.hidden = !ukazat;
+      if (ukazat) zobrazeno++;
+    });
+    filtry.forEach((f) => f.setAttribute('aria-pressed', String(f.dataset.tema === tema)));
+    nic.hidden = zobrazeno > 0;
+    pocet.textContent = tema || slova.length ? `Zobrazeno ${zobrazeno} z ${polozky.length}` : '';
+
+    const url = new URL(location.href);
+    tema ? url.searchParams.set('tema', tema) : url.searchParams.delete('tema');
+    history.replaceState(null, '', url);
+  }
+
+  vstup.addEventListener('input', aktualizuj);
+  filtry.forEach((f) => f.addEventListener('click', () => { tema = f.dataset.tema ?? ''; aktualizuj(); }));
+  document.querySelector('.zrusit')?.addEventListener('click', () => { tema = ''; vstup.value = ''; aktualizuj(); vstup.focus(); });
+  aktualizuj();
+</script>
+
+<style>
+  .kb-hlavicka { background: var(--pozadi-jemne); padding: clamp(48px, 7vw, 88px) 0 40px; border-bottom: 1px solid var(--linka); }
+  .kb-hlavicka p { color: var(--text-jemny); font-size: 1.1rem; max-width: 620px; }
+  .hledani {
+    display: flex; align-items: center; gap: 12px; max-width: 640px; margin-top: 28px;
+    background: #fff; border: 2px solid var(--linka); border-radius: 999px; padding: 6px 8px 6px 20px;
+    color: var(--text-jemny); transition: border-color .15s, box-shadow .15s;
+  }
+  .hledani:focus-within { border-color: var(--magenta); box-shadow: 0 0 0 4px rgba(232, 55, 146, .12); }
+  .hledani input { flex: 1; border: 0; outline: 0; font: inherit; font-size: 1.02rem; padding: 10px 0; background: transparent; color: var(--text); min-width: 0; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); }
+  .filtry { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .filtr {
+    font: inherit; font-size: .9rem; font-weight: 500; cursor: pointer;
+    padding: 8px 14px; border-radius: 999px; border: 1px solid var(--linka); background: #fff; color: var(--fialova-tmava);
+    transition: background .15s, color .15s, border-color .15s;
+  }
+  .filtr span { font-size: .78rem; opacity: .6; margin-left: 2px; }
+  .filtr:hover { border-color: var(--fialova); }
+  .filtr[aria-pressed='true'] { background: var(--fialova); border-color: var(--fialova); color: #fff; }
+  .vysledky-sekce { padding-top: 40px; }
+  .pocet { color: var(--text-jemny); font-size: .9rem; min-height: 1.5em; }
+  .polozka { display: flex; }
+  .polozka[hidden] { display: none; }
+  .polozka > :global(.karta) { width: 100%; }
+  .nic { text-align: center; padding: 48px 0; color: var(--text-jemny); }
+  .zrusit { font: inherit; color: var(--magenta); background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; }
+</style>

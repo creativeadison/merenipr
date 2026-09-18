@@ -1,0 +1,50 @@
+---
+import Logo from './Logo.astro';
+import { nav, links, site } from '../data/site';
+const rok = new Date().getFullYear();
+---
+<footer class="paticka">
+  <div class="container mrizka-paticka">
+    <div>
+      <Logo svetle />
+      <p class="popis">{site.description}</p>
+    </div>
+    <div>
+      <h2>Obsah</h2>
+      <ul>
+        {nav.map((p) => <li><a href={p.href}>{p.label}</a></li>)}
+      </ul>
+    </div>
+    <div>
+      <h2>Nástroje</h2>
+      <ul>
+        <li><a href={links.metrik} target="_blank" rel="noopener">Metrik.world</a></li>
+        <li><a href={links.workshop} target="_blank" rel="noopener">Workshop PR MeasureUP!</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Autorka</h2>
+      <ul>
+        <li><a href={links.linkedin} target="_blank" rel="noopener">Alžběta Fridrichová na LinkedInu</a></li>
+        <li><a href={links.adison} target="_blank" rel="noopener">Agentura Adison</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="container spodek">
+    <span>© {rok} <a href={links.adison} target="_blank" rel="noopener">Adison</a> · Měřme to, na čem záleží.</span>
+    <span class="kill">#KILLAVE</span>
+  </div>
+</footer>
+
+<style>
+  .paticka { background: var(--fialova-nejtmavsi); color: rgba(255, 255, 255, .72); padding: 64px 0 28px; font-size: 0.95rem; }
+  .mrizka-paticka { display: grid; gap: 36px; grid-template-columns: 1.6fr 1fr 1fr 1.2fr; }
+  .popis { margin-top: 16px; max-width: 360px; line-height: 1.6; }
+  h2 { color: #fff; font-size: 0.8rem; text-transform: uppercase; letter-spacing: .14em; margin-bottom: 14px; }
+  ul { list-style: none; padding: 0; margin: 0; display: grid; gap: 8px; }
+  a { color: rgba(255, 255, 255, .85); text-decoration: none; }
+  a:hover { color: #ff8cc6; }
+  .spodek { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 12px; margin-top: 48px; padding-top: 24px; border-top: 1px solid rgba(255, 255, 255, .12); font-size: 0.85rem; }
+  .kill { font-weight: 700; letter-spacing: .08em; color: var(--magenta); }
+  @media (max-width: 820px) { .mrizka-paticka { grid-template-columns: 1fr 1fr; } .mrizka-paticka > div:first-child { grid-column: 1 / -1; } }
+</style>

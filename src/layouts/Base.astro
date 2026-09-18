@@ -1,0 +1,97 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import Newsletter from '../components/Newsletter.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  sekce?: string;
+  type?: 'website' | 'article';
+}
+const { title, description = site.description, image = '/images/untitled-design.png', sekce, type = 'website' } = Astro.props;
+const celyTitulek = title ? `${title} | ${site.name}` : `${site.name} – ${site.tagline}`;
+const canonical = new URL(Astro.url.pathname.replace(/\.html$/, '').replace(/\/index$/, '/'), site.url);
+const obrazek = new URL(image, site.url);
+---
+<!doctype html>
+<html lang="cs">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{celyTitulek}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <!-- náhledy při sdílení (LinkedIn, Facebook…) -->
+    <meta property="og:type" content={type} />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:locale" content="cs_CZ" />
+    <meta property="og:title" content={title ?? site.name} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={obrazek} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet" />
+  </head>
+  <body>
+    <a href="#obsah" class="skip-link">Přeskočit na obsah</a>
+    <Header sekce={sekce} />
+    <main id="obsah">
+      <slot />
+    </main>
+    <Newsletter />
+    <Footer />
+
+    <script>
+      // Odkazy mimo merenipr.cz se otevírají v novém okně, odkazy uvnitř webu ve stejném.
+      document.querySelectorAll<HTMLAnchorElement>('a[href]').forEach((a) => {
+        const externi = /^https?:$/.test(a.protocol) && !/(^|\.)merenipr\.cz$/.test(a.hostname) && a.hostname !== location.hostname;
+        if (externi) {
+          a.target = '_blank';
+          a.rel = 'noopener';
+        }
+      });
+
+      // Obsah se při posouvání jemně vysune zespodu (jen jednou, a ne pro lidi, kteří mají vypnuté animace).
+      const klidnyRezim = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      if (!klidnyRezim) {
+        let cekajici = [...document.querySelectorAll<HTMLElement>(
+          'main .nadpis-sekce, main .mrizka > *, main .vyzvy > li, main .framework > li, main .nastroj, main .rozhovor-upoutavka > *, main .autorka > *, main .citat-sekce blockquote, main .rozhovor, main .medailonek',
+        )];
+        cekajici.forEach((el) => {
+          // prvky vedle sebe se objeví postupně
+          const poradi = el.parentElement ? [...el.parentElement.children].indexOf(el) : 0;
+          el.style.setProperty('--zpozdeni', `${Math.min(poradi, 5) * 90}ms`);
+          el.classList.add('odhalit');
+        });
+        // ukáže vše, co už je nad spodním okrajem okna (i když stránka „skočí“, třeba po kliknutí na odkaz)
+        const zkontroluj = () => {
+          const hranice = innerHeight * 0.92;
+          cekajici = cekajici.filter((el) => {
+            if (el.getBoundingClientRect().top < hranice) { el.classList.add('videt'); return false; }
+            return true;
+          });
+          if (!cekajici.length) removeEventListener('scroll', naScroll);
+        };
+        let naplanovano = false;
+        const naScroll = () => {
+          if (naplanovano) return;
+          naplanovano = true;
+          requestAnimationFrame(() => { naplanovano = false; zkontroluj(); });
+        };
+        addEventListener('scroll', naScroll, { passive: true });
+        addEventListener('resize', naScroll);
+        zkontroluj();
+      }
+    </script>
+  </body>
+</html>

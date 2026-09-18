@@ -1,0 +1,61 @@
+---
+import { newsletter } from '../data/site';
+---
+<section id="newsletter" class="newsletter">
+  <div class="container obal">
+    <div class="text">
+      <span class="eyebrow">Newsletter</span>
+      <h2>Staňte se součástí komunity a nenechte si ujít žádnou novinku ze světa měření PR.</h2>
+      <p>Jednou za čas pošleme, co stojí za přečtení — novinky, studie, insighty z české praxe.</p>
+    </div>
+    <div class="formular">
+      <iframe
+        data-tally-src={newsletter.embedUrl}
+        loading="lazy"
+        width="100%"
+        height="300"
+        frameborder="0"
+        marginheight="0"
+        marginwidth="0"
+        title="Přihlášení k odběru novinek"></iframe>
+      <p class="gdpr">
+        Odesláním formuláře souhlasíte se <a href={newsletter.gdprUrl} target="_blank" rel="noopener">zpracováním osobních údajů</a>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<script is:inline>
+  // Načte formulář Tally až ve chvíli, kdy je potřeba
+  (function () {
+    function nacti() {
+      if (window.Tally) { window.Tally.loadEmbeds(); return; }
+      document.querySelectorAll('iframe[data-tally-src]:not([src])').forEach(function (f) { f.src = f.dataset.tallySrc; });
+    }
+    if (document.querySelector('script[src="https://tally.so/widgets/embed.js"]')) return nacti();
+    var s = document.createElement('script');
+    s.src = 'https://tally.so/widgets/embed.js';
+    s.onload = nacti; s.onerror = nacti;
+    document.body.appendChild(s);
+  })();
+</script>
+
+<style>
+  .newsletter {
+    position: relative; overflow: hidden;
+    background: var(--fialova-tmava);
+    color: #fff; padding: clamp(56px, 8vw, 96px) 0;
+  }
+  .newsletter::before {
+    content: ''; position: absolute; width: 620px; height: 620px; right: -160px; top: -220px;
+    background: radial-gradient(circle, rgba(232, 55, 146, .55), transparent 65%);
+    pointer-events: none;
+  }
+  .obal { position: relative; display: grid; gap: 40px; grid-template-columns: 1.1fr 1fr; align-items: center; }
+  h2 { color: #fff; font-size: clamp(1.45rem, 2.6vw, 2rem); }
+  .text p { color: rgba(255, 255, 255, .78); font-size: 1.08rem; margin: 0; }
+  .eyebrow { color: #ff8cc6; }
+  .formular { background: #fff; border-radius: var(--radius-velky); padding: 28px 28px 18px; color: var(--text); box-shadow: 0 30px 60px rgba(0, 0, 0, .25); }
+  .gdpr { font-size: 0.8rem; color: var(--text-jemny); margin: 8px 0 0; }
+  @media (max-width: 820px) { .obal { grid-template-columns: 1fr; } }
+</style>

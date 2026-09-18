@@ -1,0 +1,200 @@
+---
+// Jedna šablona pro všechny články Knowledge Base i rozhovory.
+// Adresa stránky = název souboru (např. src/content/clanky/kvalitativni-indexy.md → /kvalitativni-indexy)
+import { render } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import KartaClanku from '../components/KartaClanku.astro';
+import { nactiClanky, nactiRozhovory, dobaCteni } from '../lib/utils';
+import { autorka, links } from '../data/site';
+
+export async function getStaticPaths() {
+  const clanky = await nactiClanky();
+  const rozhovory = await nactiRozhovory();
+  return [
+    ...clanky.map((entry) => ({ params: { slug: entry.id }, props: { entry, druh: 'clanek' as const } })),
+    ...rozhovory.map((entry) => ({ params: { slug: entry.id }, props: { entry, druh: 'rozhovor' as const } })),
+  ];
+}
+
+const { entry, druh } = Astro.props;
+const { Content, headings } = await render(entry);
+const obsah = headings.filter((h) => h.depth === 2);
+const minuty = dobaCteni(entry.body);
+
+// související články: nejvíc společných témat
+let souvisejici: Awaited<ReturnType<typeof nactiClanky>> = [];
+if (druh === 'clanek') {
+  const temata = (entry.data as any).temata as string[];
+  souvisejici = (await nactiClanky())
+    .filter((c) => c.id !== entry.id)
+    .map((c) => ({ c, skore: c.data.temata.filter((t) => temata.includes(t)).length }))
+    .sort((a, b) => b.skore - a.skore)
+    .slice(0, 3)
+    .map((x) => x.c);
+}
+const d: any = entry.data;
+---
+<Base
+  title={d.title}
+  description={d.description}
+  image={druh === 'rozhovor' ? d.foto : d.image}
+  sekce={druh === 'rozhovor' ? '/rozhovory-mereni-pr-v-cr' : '/knowledge-base'}
+  type="article"
+>
+  {druh === 'clanek' ? (
+    <header class="clanek-hlavicka">
+      <div class="container">
+        <nav class="drobecky" aria-label="Drobečková navigace">
+          <a href="/knowledge-base">Knowledge Base</a> <span>/</span> {d.typ}
+        </nav>
+        <h1>{d.title}</h1>
+        <p class="perex">{d.description}</p>
+        <div class="meta-radek">
+          <div class="stitky">
+            <span class="stitek stitek-typ">{d.typ}</span>
+            {d.temata.map((t: string) => <a class="stitek" href={`/knowledge-base?tema=${encodeURIComponent(t)}`}>{t}</a>)}
+          </div>
+          <span class="doba">{minuty} min čtení</span>
+        </div>
+      </div>
+    </header>
+  ) : (
+    <header class="rozhovor-hlavicka">
+      <div class="container rozhovor-hlavicka-obal">
+        <div>
+          <nav class="drobecky" aria-label="Drobečková navigace">
+            <a href="/rozhovory-mereni-pr-v-cr">Rozhovory Měření PR v ČR</a>
+          </nav>
+          <span class="eyebrow">Rozhovor</span>
+          <h1>{d.title}</h1>
+          <p class="respondent"><strong>{d.jmeno}</strong>{d.pozice}, {d.firma}</p>
+          <p class="pripravila">Rozhovor připravila <a href={links.linkedin} target="_blank" rel="noopener">{autorka.jmeno}</a>, CEO agentury <a href={links.adison} target="_blank" rel="noopener">Adison</a> · {minuty} min čtení</p>
+        </div>
+        <img src={d.foto} alt={d.jmeno} width="800" height="533" />
+      </div>
+    </header>
+  )}
+
+  <div class="container clanek-obal">
+    <article class="prose">
+      {druh === 'clanek' && d.image && (
+        <img src={d.image} alt="" class="uvodni-obrazek" width="1200" height="675" />
+      )}
+      <Content />
+
+      {druh === 'rozhovor' && (
+        <section class="medailonky">
+          <div class="medailonek">
+            <img src={d.foto} alt="" width="96" height="96" loading="lazy" />
+            <div>
+              <h2>{d.jmeno}</h2>
+              <p>{d.oRespondentovi}</p>
+            </div>
+          </div>
+          <div class="medailonek">
+            <img src={autorka.foto} alt="" width="96" height="96" loading="lazy" />
+            <div>
+              <h2>{autorka.jmeno}</h2>
+              <p class="role">{autorka.role}</p>
+              <p>{autorka.medailonek}</p>
+            </div>
+          </div>
+        </section>
+      )}
+    </article>
+
+    {obsah.length > 2 && (
+      <aside class="obsah" aria-label="Obsah článku">
+        <div class="obsah-sticky">
+          <p class="obsah-nadpis">Obsah</p>
+          <ol>
+            {obsah.map((h) => <li><a href={`#${h.slug}`}>{h.text}</a></li>)}
+          </ol>
+        </div>
+      </aside>
+    )}
+  </div>
+
+  {druh === 'clanek' && souvisejici.length > 0 && (
+    <section class="sekce sekce-jemna">
+      <div class="container">
+        <div class="nadpis-sekce">
+          <span class="eyebrow">Pokračujte ve čtení</span>
+          <h2>Související články</h2>
+        </div>
+        <div class="mrizka">
+          {souvisejici.map((c) => <KartaClanku clanek={c} />)}
+        </div>
+      </div>
+    </section>
+  )}
+</Base>
+
+<script>
+  // zvýraznění aktuální kapitoly v obsahu
+  const odkazy = document.querySelectorAll<HTMLAnchorElement>('.obsah a');
+  if (odkazy.length) {
+    const nadpisy = [...odkazy].map((a) => document.getElementById(decodeURIComponent(a.hash.slice(1)))).filter(Boolean) as HTMLElement[];
+    const pozorovatel = new IntersectionObserver((zaznamy) => {
+      zaznamy.forEach((z) => {
+        if (z.isIntersecting) {
+          odkazy.forEach((a) => a.classList.toggle('aktivni', a.hash === '#' + z.target.id));
+        }
+      });
+    }, { rootMargin: '-90px 0px -70% 0px' });
+    nadpisy.forEach((n) => pozorovatel.observe(n));
+  }
+</script>
+
+<style>
+  .drobecky { font-size: .88rem; color: var(--text-jemny); margin-bottom: 20px; }
+  .drobecky a { color: var(--fialova); text-decoration: none; font-weight: 500; }
+  .drobecky span { margin: 0 6px; opacity: .5; }
+
+  .clanek-hlavicka { background: var(--pozadi-jemne); padding: clamp(40px, 6vw, 72px) 0 clamp(36px, 5vw, 56px); border-bottom: 1px solid var(--linka); }
+  .clanek-hlavicka h1 { max-width: 900px; font-size: clamp(1.9rem, 4vw, 3rem); }
+  .clanek-hlavicka .perex { max-width: 760px; font-size: 1.15rem; color: var(--text-jemny); }
+  .meta-radek { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; justify-content: space-between; max-width: 900px; margin-top: 24px; }
+  .doba { font-size: .88rem; color: var(--text-jemny); }
+
+  .rozhovor-hlavicka { background: var(--fialova-tmava); color: #fff; padding: clamp(40px, 6vw, 80px) 0; }
+  .rozhovor-hlavicka-obal { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: center; }
+  .rozhovor-hlavicka h1 { color: #fff; font-size: clamp(1.7rem, 3.4vw, 2.6rem); }
+  .rozhovor-hlavicka .eyebrow { color: #ff8cc6; }
+  .rozhovor-hlavicka .drobecky a { color: rgba(255, 255, 255, .75); }
+  .rozhovor-hlavicka img { border-radius: var(--radius-velky); aspect-ratio: 3 / 2; object-fit: cover; }
+  .respondent { font-size: 1.05rem; color: rgba(255, 255, 255, .85); }
+  .respondent strong { display: block; color: #fff; font-size: 1.2rem; }
+  .pripravila { font-size: .9rem; color: rgba(255, 255, 255, .65); margin: 0; }
+  .pripravila a { color: #fff; }
+
+  .clanek-obal { display: grid; grid-template-columns: minmax(0, var(--sirka-text)) 260px; gap: 64px; justify-content: center; padding-top: 48px; padding-bottom: 80px; }
+  .clanek-obal:not(:has(.obsah)) { grid-template-columns: minmax(0, var(--sirka-text)); }
+  .uvodni-obrazek { width: 100%; margin-top: 0 !important; border: 1px solid var(--linka); }
+
+  .obsah-sticky { position: sticky; top: 100px; }
+  .obsah-nadpis { font-size: .75rem; text-transform: uppercase; letter-spacing: .14em; font-weight: 600; color: var(--magenta); margin-bottom: 10px; }
+  .obsah ol { list-style: none; padding: 0; margin: 0; border-left: 2px solid var(--linka); }
+  .obsah a { display: block; padding: 7px 0 7px 16px; margin-left: -2px; border-left: 2px solid transparent; font-size: .88rem; line-height: 1.45; color: var(--text-jemny); text-decoration: none; }
+  .obsah a:hover { color: var(--fialova); }
+  .obsah a.aktivni { color: var(--fialova-tmava); border-left-color: var(--magenta); font-weight: 600; }
+
+  .medailonky { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--linka); display: grid; gap: 28px; }
+  .medailonek { display: grid; grid-template-columns: 96px 1fr; gap: 22px; align-items: start; }
+  .medailonek img { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; object-position: top; margin: 0; }
+  .medailonek h2 { font-size: 1.15rem; margin: 0 0 6px; }
+  .medailonek p { font-size: .95rem; color: var(--text-jemny); line-height: 1.65; }
+  .medailonek .role { font-weight: 600; color: var(--magenta-dark); margin-bottom: 6px; }
+
+  @media (max-width: 1000px) {
+    .clanek-obal { grid-template-columns: minmax(0, 1fr); }
+    .obsah { display: none; }
+  }
+  @media (max-width: 820px) {
+    .rozhovor-hlavicka-obal { grid-template-columns: 1fr; }
+    .rozhovor-hlavicka img { order: -1; }
+  }
+  @media (max-width: 560px) {
+    .medailonek { grid-template-columns: 1fr; }
+  }
+</style>

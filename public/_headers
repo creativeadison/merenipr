@@ -1,0 +1,7 @@
+# Pravidla pro Cloudflare Pages.
+# Zkušební adresy (*.pages.dev) nemá Google indexovat – ve vyhledávání má být jen www.merenipr.cz.
+https://:project.pages.dev/*
+  X-Robots-Tag: noindex
+
+https://:version.:project.pages.dev/*
+  X-Robots-Tag: noindex

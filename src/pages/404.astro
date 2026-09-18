@@ -1,0 +1,22 @@
+---
+import Base from '../layouts/Base.astro';
+---
+<Base title="Stránka nenalezena">
+  <section class="sekce">
+    <div class="container container-uzky chyba">
+      <span class="eyebrow">Chyba 404</span>
+      <h1>Tuhle stránku jsme nenašli.</h1>
+      <p>Možná se přesunula, nebo v adrese je překlep. Zkuste začít tady:</p>
+      <div class="tlacitka">
+        <a href="/" class="btn btn-primary">Úvodní stránka</a>
+        <a href="/knowledge-base" class="btn btn-outline">Knowledge Base</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .chyba { text-align: center; padding: 40px 20px; }
+  .chyba p { color: var(--text-jemny); }
+  .tlacitka { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; margin-top: 24px; }
+</style>

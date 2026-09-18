@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+
+// Seznam zdrojů – nový zdroj přidáte dalším řádkem
+const zdroje = [
+  { nazev: 'Integrated Evaluation Framework', autor: 'AMEC', popis: 'Interaktivní model AMEC pro plánování a vyhodnocování komunikace od cílů až po dopad.', url: 'https://amecorg.com/amecframework/', obrazek: '/images/1-integrated-evaluation-framework.png' },
+  { nazev: 'Tutorial pro Integrovaný evaluační rámec', autor: 'AMEC Foundation', popis: 'Online kurz, který krok za krokem provede prací s Integrated Evaluation Framework.', url: 'https://amecfoundation.thinkific.com/courses/AMEC-IEF-Tutorial', obrazek: '/images/2tutorial.png' },
+  { nazev: 'The Measurement Maturity Mapper (M3)', autor: 'AMEC', popis: 'Nástroj pro zhodnocení, jak vyspělé je měření komunikace ve vaší organizaci.', url: 'https://m3.amecorg.com/', obrazek: '/images/3-mapper.png' },
+  { nazev: 'MEL Manual for Public Communication', autor: 'Jim Macnamara', popis: 'Příručka monitoringu, evaluace a učení (MEL) pro veřejnou komunikaci.', url: 'https://amecorg.com/wp-content/uploads/2024/11/Jim-Macnamaras-MEL-Manual.pdf', obrazek: '/images/4mel-manual.png', pdf: true },
+  { nazev: 'Taxonomy of Methods, Metrics and Indicators by Program Stage', autor: 'AMEC', popis: 'Přehled metod, metrik a indikátorů podle fáze programu – přehledně na jednom listu A3.', url: 'https://amecorg.com/wp-content/uploads/2024/11/Taxonomy-of-Methods-Metrics-Indicators-A3.pdf', obrazek: '/images/5taxonomy.png', pdf: true },
+];
+---
+<Base
+  title="Zdroje"
+  description="Doporučené zdroje o měření a evaluaci PR: AMEC Integrated Evaluation Framework, M3, MEL Manual Jima Macnamary a taxonomie metrik."
+>
+  <header class="hlavicka-stranky">
+    <div class="container">
+      <span class="eyebrow">Zdroje</span>
+      <h1>Chcete se o měření dozvědět více?</h1>
+      <p>Výběr ověřených mezinárodních zdrojů, ze kterých vychází moderní přístup k evaluaci komunikace.</p>
+    </div>
+  </header>
+
+  <section class="sekce">
+    <div class="container mrizka">
+      {zdroje.map((z) => (
+        <article class="karta">
+          <div class="karta-obrazek"><img src={z.obrazek} alt="" loading="lazy" width="640" height="360" /></div>
+          <div class="karta-telo">
+            <div class="stitky">
+              <span class="stitek">{z.autor}</span>
+              {z.pdf && <span class="stitek stitek-typ">PDF</span>}
+            </div>
+            <h3><a href={z.url} target="_blank" rel="noopener">{z.nazev}</a></h3>
+            <p>{z.popis}</p>
+            <span class="meta odkaz-sipka">Více informací</span>
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+</Base>
+
+<style>
+  .hlavicka-stranky { background: var(--pozadi-jemne); padding: clamp(48px, 7vw, 88px) 0; border-bottom: 1px solid var(--linka); }
+  .hlavicka-stranky p { color: var(--text-jemny); font-size: 1.1rem; max-width: 620px; }
+  .odkaz-sipka { color: var(--fialova); }
+</style>
