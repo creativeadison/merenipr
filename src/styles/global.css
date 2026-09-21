@@ -200,4 +200,11 @@ p { margin: 0 0 1em; }
 
 /* rozhovor: otázky */
 .prose .otazka { font-weight: 600; color: var(--magenta-dark); font-size: 1.1rem; margin-top: 2em; }
-.prose .foto-v-textu { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; }
+/* fotka na výšku v textu rozhovoru – na počítači vpravo obtékaná textem */
+.prose .foto-v-textu {
+  float: right; width: 42%; aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 15%;
+  margin: 0.4em 0 1.2em 1.8em;
+}
+@media (max-width: 640px) {
+  .prose .foto-v-textu { float: none; width: 100%; aspect-ratio: 1; margin: 1.6em 0; }
+}
