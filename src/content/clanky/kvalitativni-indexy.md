@@ -3,7 +3,7 @@ title: "Kvalitativní indexy v PR: Proč nestačí počítat zmínky"
 description: "Reach, imprese a GRP ukazují, kde jste se objevili. Kvalitativní indexy ukazují, jak – Adix, PRIMe, PR Index, Kick Butt Index a jak si nastavit vlastní."
 typ: Článek
 temata: ["Metriky", "Kvalitativní analýza", "Media relations"]
-image: /images/nahledy/kvalitativni-indexy.svg
+image: /images/nahledy/kvalitativni-index.svg
 poradi: 5
 ---
 

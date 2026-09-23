@@ -3,7 +3,7 @@ title: "Hlavní metriky pro media relations: Od dosahu po dopad"
 description: "Počítáte počet zmínek v médiích a říkáte tomu měření PR? Přehled užitečných metrik pro media relations na všech úrovních – od aktivit po dopad na byznys."
 typ: Článek
 temata: ["Metriky", "Media relations"]
-image: /images/snimek-obrazovky-2026-06-02-151810.png
+image: /images/nahledy/metriky.svg
 poradi: 3
 ---
 
@@ -133,5 +133,7 @@ Na rozdíl od performance marketingu tu nemáme jeden univerzální ukazatel typ
 Metriky samy o sobě nejsou cílem. Jsou kompasem, který ukazuje, kam vaše komunikace směřuje. Dobrý systém měření media relations kombinuje metriky ze všech úrovní, je přizpůsobený konkrétním cílům a poskytuje jasné insighty pro další kroky.
 
 A hlavně: **měřte to, co potřebujete vědět pro rozhodování. Ne to, co se nejsnáze spočítá.**
+
+![Metrik.world – interaktivní databáze metrik](/images/snimek-obrazovky-2026-06-02-151810.png)
 
 > **Nápovědu hledejte v Metrik.world!** Metrik.world je interaktivní databáze metrik pro měření a vyhodnocování komunikace. Pomůže vám vybrat správné metriky, pochopit jejich přínosy i limity a propojit měření s Integrated Evaluation Framework. [Přejít na Metrik.world →](https://www.metrik.world/)

@@ -111,6 +111,9 @@ p { margin: 0 0 1em; }
   border-bottom: 1px solid var(--linka);
 }
 .karta-obrazek img { width: 100%; height: 100%; object-fit: contain; transition: transform .5s cubic-bezier(.2, .8, .2, 1); }
+/* jednotné náhledy článků vyplní celou plochu kartičky */
+.karta-obrazek-plna { padding: 0; background: none; }
+.karta-obrazek-plna img { object-fit: cover; }
 .karta:hover .karta-obrazek img { transform: scale(1.04); }
 .karta-obrazek-prazdny {
   display: grid; place-items: center; background: var(--gradient); color: #fff;

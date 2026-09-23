@@ -37,7 +37,7 @@ const d: any = entry.data;
 <Base
   title={d.title}
   description={d.description}
-  image={druh === 'rozhovor' ? d.foto : d.image}
+  image={druh === 'rozhovor' ? d.foto : d.image?.replace(/^\/images\/nahledy\/(.+)\.svg$/, '/images/nahledy/$1.png')}
   sekce={druh === 'rozhovor' ? '/rozhovory-mereni-pr-v-cr' : '/knowledge-base'}
   type="article"
 >
@@ -77,7 +77,8 @@ const d: any = entry.data;
 
   <div class="container clanek-obal">
     <article class="prose">
-      {druh === 'clanek' && d.image && (
+      {/* Jednotné náhledy z /images/nahledy/ slouží jen do výpisu a ke sdílení – v článku se neopakují. */}
+      {druh === 'clanek' && d.image && !d.image.startsWith('/images/nahledy/') && (
         <img src={d.image} alt="" class="uvodni-obrazek" width="1200" height="675" />
       )}
       <Content />

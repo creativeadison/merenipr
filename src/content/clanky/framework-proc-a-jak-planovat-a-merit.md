@@ -3,13 +3,15 @@ title: "AMEC Framework: Jak plánovat a měřit PR, které má skutečný dopad"
 description: "Kolik tiskových zpráv jste poslali? Kolik zmínek vyšlo? Pokud tady vaše měření končí, ukážeme vám, proč to nestačí."
 typ: Článek
 temata: ["AMEC framework", "Plánování"]
-image: /images/untitled-design.png
+image: /images/nahledy/amec-framework.svg
 poradi: 2
 ---
 
 Kolik tiskových zpráv jste poslali? Kolik zmínek vyšlo? Pokud tady vaše měření končí, ukážeme vám, proč to nestačí. V moderním světě PR už dávno nestačí jen „něco“ vypustit do světa a doufat v to nejlepší. Profesionální komunikace je strategická disciplína, která musí prokazovat svou hodnotu. Ale jak na to? Klíčem je plánování, které začíná od konce – od žádaného výsledku. A právě k tomu slouží AMEC Integrated Evaluation Framework.
 
 Tento komplexní, ale intuitivní model, vyvinutý Mezinárodní asociací pro měření a hodnocení komunikace (AMEC), je zásadní pomůckou pro každého PR manažera a stratéga. Namísto zastaralého a zavádějícího počítání „počtu zmínek“ se zaměřuje na to, co skutečně ovlivňuje byznys a reputaci.
+
+![Úrovně měření: aktivity, výstupy, efekt, dopad a strategické plánování](/images/untitled-design.png)
 
 ## Od čeho začít? Vždy od dopadu!
 

@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="Terč se sedmi body – sedm Barcelonských principů">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e83792"/><stop offset="1" stop-color="#a8368f"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#g)"/>
+  <circle cx="580" cy="390" r="140" fill="#fff" opacity="0.08"/>
+  <circle cx="40" cy="-20" r="90" fill="#fff" opacity="0.07"/>
+  <g transform="translate(215, 75) scale(1.7500)"
+     fill="none" stroke="#fff" stroke-width="4.5" stroke-linecap="round" stroke-linejoin="round" color="#e83792">
+    
+    <circle cx="60" cy="60" r="46"/><circle cx="60" cy="60" r="31"/><circle cx="60" cy="60" r="16"/>
+    <circle cx="60" cy="60" r="6" fill="#fff" stroke="none"/>
+    <circle cx="60.0" cy="3.0" r="4.2" fill="#fff" stroke="none" opacity="0.9"/><circle cx="104.6" cy="24.5" r="4.2" fill="#fff" stroke="none" opacity="0.9"/><circle cx="115.6" cy="72.7" r="4.2" fill="#fff" stroke="none" opacity="0.9"/><circle cx="84.7" cy="111.4" r="4.2" fill="#fff" stroke="none" opacity="0.9"/><circle cx="35.3" cy="111.4" r="4.2" fill="#fff" stroke="none" opacity="0.9"/><circle cx="4.4" cy="72.7" r="4.2" fill="#fff" stroke="none" opacity="0.9"/><circle cx="15.4" cy="24.5" r="4.2" fill="#fff" stroke="none" opacity="0.9"/>
+    <path d="M14 106 L52 68"/><path d="M52 68 L40 70 M52 68 L50 80"/>
+  </g>
+</svg>

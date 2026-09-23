@@ -3,7 +3,7 @@ title: "PR Measurement: Checklist"
 description: "Na co nezapomenout při nastavování PR měření. Rychlý checklist podle AMEC frameworku a Barcelonských principů."
 typ: Checklist
 temata: ["AMEC framework", "Barcelonské principy", "Plánování"]
-image: /images/nahledy/pr-measurement-checklist.svg
+image: /images/nahledy/checklist.svg
 poradi: 6
 ---
 

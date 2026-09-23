@@ -7,7 +7,7 @@ const { clanek } = Astro.props;
 const { title, description, typ, temata, image } = clanek.data;
 ---
 <article class="karta">
-  <div class="karta-obrazek">
+  <div class:list={['karta-obrazek', { 'karta-obrazek-plna': image?.startsWith('/images/nahledy/') }]}>
     {image
       ? <img src={image} alt="" loading="lazy" width="640" height="360" />
       : <div class="karta-obrazek-prazdny" aria-hidden="true" style="width:100%;height:100%">{typ === 'Checklist' ? '✓' : title.charAt(0)}</div>}

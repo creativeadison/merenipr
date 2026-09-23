@@ -3,7 +3,7 @@ title: "Barcelonské principy 4.0: Proč je měření PR zase o krok dál"
 description: "Patnáct let poté, co měření PR dostalo svůj kompas, přichází další aktualizace. Barcelonské principy 4.0 nejsou revolucí, ale důslednou evolucí."
 typ: Článek
 temata: ["Barcelonské principy", "AMEC framework"]
-image: /images/barcelonskeprincipy-40.jpg
+image: /images/nahledy/barcelonske-principy.svg
 poradi: 1
 ---
 
@@ -18,6 +18,8 @@ Na první pohled se zdá, že principy zůstaly téměř stejné: stále sedm bo
 - **Od statických kampaní ke kontinuálnímu procesu.** Komunikace už není „raketa“, kterou odpálíme a pak vyhodnotíme. Je to cyklus – průběžně měříme, okamžitě reagujeme a podle výsledků upravujeme další kroky.
 - **Stakeholdeři jako spolutvůrci hodnoty.** Publikum není jen příjemce sdělení. Aktivně se zapojuje, diskutuje, dává zpětnou vazbu. Teprve tehdy se z komunikace stává skutečně dvousměrný proces.
 - **Etika a transparentnost technologií.** V éře generativní AI a sofistikovaných analytických nástrojů musíme vědět, jak metriky vznikají – a být schopni je ověřit a zopakovat.
+
+![Barcelonské principy 4.0 – přehled sedmi principů](/images/barcelonskeprincipy-40.jpg)
 
 ## 7 principů, které by měl znát každý PR tým
 
