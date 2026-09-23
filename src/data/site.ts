@@ -8,6 +8,14 @@ export const site = {
   url: 'https://www.merenipr.cz',
 };
 
+// Měření návštěvnosti. Obojí funguje bez cookies, takže web nepotřebuje lištu se souhlasem.
+export const mereni = {
+  // Cloudflare Web Analytics – token ze snippetu (Analytics & Logs → Web Analytics → Add a site)
+  cloudflareToken: '7f55540f525e495a9cab85d90fc028a9',
+  // Google Search Console – obsah ověřovací meta značky (metoda „HTML tag“)
+  googleOvereni: '',
+};
+
 export const nav = [
   { href: '/knowledge-base', label: 'Knowledge Base' },
   { href: '/rozhovory-mereni-pr-v-cr', label: 'Rozhovory' },
