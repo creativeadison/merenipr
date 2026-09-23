@@ -85,14 +85,14 @@ const d: any = entry.data;
       {druh === 'rozhovor' && (
         <section class="medailonky">
           <div class="medailonek">
-            <img src={d.foto} alt="" width="96" height="96" loading="lazy" />
+            <img src={d.avatar ?? d.foto} alt="" width="192" height="192" loading="lazy" />
             <div>
               <h2>{d.jmeno}</h2>
               <p>{d.oRespondentovi}</p>
             </div>
           </div>
           <div class="medailonek">
-            <img src={autorka.foto} alt="" width="96" height="96" loading="lazy" />
+            <img src={autorka.avatar} alt="" width="192" height="192" loading="lazy" />
             <div>
               <h2>{autorka.jmeno}</h2>
               <p class="role">{autorka.role}</p>
@@ -181,7 +181,7 @@ const d: any = entry.data;
 
   .medailonky { margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--linka); display: grid; gap: 28px; }
   .medailonek { display: grid; grid-template-columns: 96px 1fr; gap: 22px; align-items: start; }
-  .medailonek img { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; object-position: top; margin: 0; }
+  .medailonek img { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; margin: 0; }
   .medailonek h2 { font-size: 1.15rem; margin: 0 0 6px; }
   .medailonek p { font-size: .95rem; color: var(--text-jemny); line-height: 1.65; }
   .medailonek .role { font-weight: 600; color: var(--magenta-dark); margin-bottom: 6px; }

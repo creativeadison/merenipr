@@ -29,6 +29,8 @@ const rozhovory = defineCollection({
     pozice: z.string(),
     firma: z.string(),
     foto: z.string(),
+    // ořez obličeje pro malá kolečka (nepovinné, jinak se použije foto)
+    avatar: z.string().optional(),
     citat: z.string().optional(),
     // krátké medailonky na konci rozhovoru
     oRespondentovi: z.string(),

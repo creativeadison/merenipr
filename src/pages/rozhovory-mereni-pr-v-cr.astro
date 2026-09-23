@@ -18,7 +18,7 @@ const rozhovory = await nactiRozhovory();
         <p>Proto se ptáme. Komunikačních manažerů, ředitelů agentur, CEOs i lidí, kteří o PR rozhodují na straně zadavatelů. Jak definují úspěch? Co měří a co měřit neumějí? Kde naráží na limity a co jim skutečně pomáhá? Tady jsou jejich odpovědi.</p>
       </div>
       <aside class="autorka">
-        <img src={autorka.foto} alt="" width="72" height="72" />
+        <img src={autorka.avatar} alt="" width="144" height="144" />
         <p>Rozhovory připravila <a href={links.linkedin} target="_blank" rel="noopener">{autorka.jmeno}</a>, CEO agentury <a href={links.adison} target="_blank" rel="noopener">Adison</a>. Alžběta dlouhodobě bojuje proti nesmyslným PR metrikám a pomáhá firmám posunout komunikaci od dojmů k hmatatelným výsledkům.</p>
       </aside>
     </div>
@@ -53,7 +53,7 @@ const rozhovory = await nactiRozhovory();
   .perex { font-size: 1.15rem; color: var(--fialova-tmava); font-weight: 500; }
   .obal p { color: var(--text-jemny); }
   .autorka { background: #fff; border-radius: var(--radius); padding: 24px; border: 1px solid var(--linka); }
-  .autorka img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; object-position: top; margin-bottom: 14px; }
+  .autorka img { width: 72px; height: 72px; border-radius: 50%; object-fit: cover; margin-bottom: 14px; }
   .autorka p { font-size: .92rem; margin: 0; }
 
   .seznam { display: grid; gap: 32px; }

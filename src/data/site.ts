@@ -31,6 +31,8 @@ export const autorka = {
   jmeno: 'Alžběta Fridrichová',
   role: 'CEO & Founder, Adison',
   foto: '/images/2e8a6806-resized.jpg',
+  // ořez obličeje pro malé kolečko – ostřejší než zmenšená velká fotka
+  avatar: '/images/alzbeta-avatar.jpg',
   kratce:
     'Měření PR se věnuji přes deset let. Zrealizovala jsem studii Měření PR v ČR a průběžně čerpám od předních světových expertů v oboru. Věřím, že změna v přístupu k evaluaci může posílit pozici PR jako oboru. Své znalosti sdílím otevřeně. (Kill AVE, povídám.)',
   medailonek:

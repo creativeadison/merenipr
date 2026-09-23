@@ -3,6 +3,7 @@ title: "Barcelonské principy 4.0 a nejčastější chyby v měření"
 description: "Jak dělat PR, které má hodnotu: co si z Barcelonských principů 4.0 vzít do praxe a jak se vyhnout nejčastějším chybám v měření."
 typ: Shrnutí
 temata: ["Barcelonské principy", "Metriky"]
+image: /images/nahledy/kompilat-bp40-plus-chyby.svg
 poradi: 4
 ---
 

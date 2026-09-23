@@ -5,6 +5,7 @@ jmeno: Daniela Chovancová
 pozice: Senior PR & External Communications Manager
 firma: Kiwi.com
 foto: /images/4v0a9653.jpg
+avatar: /images/daniela-avatar.jpg
 citat: "Chtěla bych mít dvouvětou ranní komunikační předpověď počasí."
 oRespondentovi: "Daniela Chovancová se v oblasti strategické komunikace pohybuje přes dvacet let a ve své praxi se zaměřuje na propojování PR s obchodními cíli. V současnosti zastává pozici Senior PR & External Communications Manager ve společnosti Kiwi.com, kde vedle regionu střední a východní Evropy (Česko, Slovensko, Maďarsko, Polsko a Rumunsko) zodpovídá také za externí komunikaci firmy na španělském trhu. Před příchodem do Kiwi.com působila jako tisková mluvčí a PR manažerka lídra e-commerce Alza.cz a patnáct let budovala kariéru v agentuře Havas PR Prague, kde řídila komunikaci pro globální brandy jako Google, LG či AXA. Od roku 2020 je členkou oborové asociace ASCOPA. Dlouhodobě se věnuje zvyšování standardů oboru, mimo jiné jako garantka porot soutěže Zlatý středník, a své zkušenosti uplatnila také jako porotkyně v soutěžích Lemur či Young Lions. Vystudovala mezinárodní obchod a ekonomickou žurnalistiku na VŠE v Praze."
 poradi: 1

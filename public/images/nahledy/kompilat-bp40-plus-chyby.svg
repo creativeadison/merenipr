@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="Nejčastější chyby v měření PR a jejich řešení">
+  <defs>
+    <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e83792"/><stop offset="1" stop-color="#523792"/>
+    </linearGradient>
+    <style>
+      .t { font-family: Poppins, 'Segoe UI', sans-serif; }
+      .nadpis { font-size: 26px; font-weight: 700; fill: #2b1c56; }
+      .radek { font-size: 18px; font-weight: 500; fill: #221b3a; }
+      .stitek { font-size: 13px; font-weight: 600; fill: #fff; letter-spacing: 1.2px; }
+    </style>
+  </defs>
+  <rect width="640" height="360" fill="#ffffff"/>
+  <rect x="0" y="0" width="640" height="8" fill="url(#g)"/>
+
+  <rect x="40" y="36" width="168" height="28" rx="14" fill="url(#g)"/>
+  <text class="t stitek" x="60" y="55">BP 4.0 + CHYBY</text>
+  <text class="t nadpis" x="40" y="106">Co v měření PR</text>
+  <text class="t nadpis" x="40" y="140">děláme špatně</text>
+
+  <g>
+    <rect x="40" y="176" width="560" height="52" rx="12" fill="#fff5f6"/>
+    <circle cx="70" cy="202" r="14" fill="#d4344a"/>
+    <path d="M64 196 l12 12 M76 196 l-12 12" stroke="#fff" stroke-width="3" stroke-linecap="round"/>
+    <text class="t radek" x="98" y="209">AVE · umělý reach · nízko nastavená KPI</text>
+  </g>
+  <g>
+    <rect x="40" y="240" width="560" height="52" rx="12" fill="#f1faf6"/>
+    <circle cx="70" cy="266" r="14" fill="#1f9d6b"/>
+    <path d="M63 266 l5 6 l10 -12" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    <text class="t radek" x="98" y="273">Sentiment · share of voice · dopad na byznys</text>
+  </g>
+
+  <rect x="40" y="316" width="140" height="6" rx="3" fill="url(#g)"/>
+</svg>

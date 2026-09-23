@@ -1,0 +1,52 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" width="640" height="360" role="img" aria-label="Kvalitativní index hodnotí výstupy na škále od minus deseti do plus deseti">
+  <defs>
+    <linearGradient id="g2" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0" stop-color="#d4344a"/><stop offset="0.5" stop-color="#e83792"/><stop offset="1" stop-color="#523792"/>
+    </linearGradient>
+    <style>
+      .t { font-family: Poppins, 'Segoe UI', sans-serif; }
+      .nadpis { font-size: 26px; font-weight: 700; fill: #2b1c56; }
+      .popis { font-size: 15px; font-weight: 500; fill: #5d5775; }
+      .skala { font-size: 14px; font-weight: 600; fill: #5d5775; }
+      .hodnota { font-size: 22px; font-weight: 800; fill: #fff; }
+    </style>
+  </defs>
+  <rect width="640" height="360" fill="#ffffff"/>
+  <rect x="0" y="0" width="640" height="8" fill="url(#g2)"/>
+
+  <text class="t nadpis" x="40" y="70">Kvalitativní index</text>
+  <text class="t popis" x="40" y="100">Nejen kde jste se objevili, ale i jak.</text>
+
+  <!-- sloupce parametrů -->
+  <g>
+    <rect x="40" y="130" width="130" height="86" rx="14" fill="#faf7fd"/>
+    <rect x="56" y="188" width="98" height="10" rx="5" fill="#e83792"/>
+    <text class="t skala" x="56" y="158">Relevance</text>
+    <text class="t skala" x="56" y="178">média</text>
+  </g>
+  <g>
+    <rect x="184" y="130" width="130" height="86" rx="14" fill="#faf7fd"/>
+    <rect x="200" y="188" width="72" height="10" rx="5" fill="#b93a9b"/>
+    <text class="t skala" x="200" y="158">Klíčové</text>
+    <text class="t skala" x="200" y="178">sdělení</text>
+  </g>
+  <g>
+    <rect x="328" y="130" width="130" height="86" rx="14" fill="#faf7fd"/>
+    <rect x="344" y="188" width="52" height="10" rx="5" fill="#8038a4"/>
+    <text class="t skala" x="344" y="158">Rozsah</text>
+    <text class="t skala" x="344" y="178">výstupu</text>
+  </g>
+  <g>
+    <rect x="472" y="130" width="128" height="86" rx="14" fill="url(#g2)"/>
+    <text class="t hodnota" x="496" y="172">+7,5</text>
+    <text class="t skala" x="496" y="196" fill="#ffffff" opacity="0.85">skóre</text>
+  </g>
+
+  <!-- škála -->
+  <rect x="40" y="268" width="560" height="12" rx="6" fill="url(#g2)" opacity="0.28"/>
+  <rect x="40" y="268" width="452" height="12" rx="6" fill="url(#g2)"/>
+  <circle cx="492" cy="274" r="13" fill="#fff" stroke="#e83792" stroke-width="5"/>
+  <text class="t skala" x="40" y="308">−10</text>
+  <text class="t skala" x="308" y="308">0</text>
+  <text class="t skala" x="568" y="308">+10</text>
+</svg>
