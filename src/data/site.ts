@@ -8,10 +8,12 @@ export const site = {
   url: 'https://www.merenipr.cz',
 };
 
-// Měření návštěvnosti. Obojí funguje bez cookies, takže web nepotřebuje lištu se souhlasem.
+// Měření návštěvnosti.
 export const mereni = {
-  // Cloudflare Web Analytics – token ze snippetu (Analytics & Logs → Web Analytics → Add a site)
+  // Cloudflare Web Analytics – bez cookies, běží vždy (Analytics & Logs → Web Analytics)
   cloudflareToken: '7f55540f525e495a9cab85d90fc028a9',
+  // Google Analytics 4 – měřicí ID. Spustí se až po souhlasu v cookie liště (src/components/CookieLista.astro).
+  ga4Id: 'G-ZL7F6DBHG5',
   // Google Search Console – obsah ověřovací meta značky (metoda „HTML tag“)
   googleOvereni: '',
 };

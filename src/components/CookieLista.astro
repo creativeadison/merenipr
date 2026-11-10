@@ -1,0 +1,136 @@
+---
+// Lišta se souhlasem s analytickými cookies (Google Analytics 4, Consent Mode v2).
+// Princip: dokud návštěvník neklikne na „Povolit“, Google Analytics se vůbec nenačte
+// a do prohlížeče se nic neukládá. Volba se pamatuje v prohlížeči (localStorage, ne cookie).
+// Lištu jde znovu otevřít odkazem s atributem data-cookie-nastaveni (je v patičce).
+import { mereni, newsletter } from '../data/site';
+const gaId = mereni.ga4Id;
+---
+{gaId && (
+  <>
+    <script is:inline define:vars={{ gaId }}>
+      window.dataLayer = window.dataLayer || [];
+      window.gtag = function () { dataLayer.push(arguments); };
+      // výchozí stav: všechno zakázané (Consent Mode v2)
+      gtag('consent', 'default', {
+        ad_storage: 'denied',
+        ad_user_data: 'denied',
+        ad_personalization: 'denied',
+        analytics_storage: 'denied',
+        functionality_storage: 'denied',
+        personalization_storage: 'denied',
+        security_storage: 'granted',
+      });
+
+      const KLIC = 'merenipr-souhlas';
+      const PLATNOST = 1000 * 60 * 60 * 24 * 365; // volbu se znovu zeptáme po roce
+      let nacteno = false;
+
+      function spustitAnalytiku() {
+        if (nacteno) return;
+        nacteno = true;
+        gtag('consent', 'update', { analytics_storage: 'granted' });
+        const s = document.createElement('script');
+        s.async = true;
+        s.src = 'https://www.googletagmanager.com/gtag/js?id=' + gaId;
+        document.head.appendChild(s);
+        gtag('js', new Date());
+        gtag('config', gaId);
+      }
+
+      function smazatCookiesGA() {
+        const domena = location.hostname.replace(/^www\./, '');
+        document.cookie.split(';').map((c) => c.split('=')[0].trim()).filter((n) => /^_ga/.test(n)).forEach((n) => {
+          [location.hostname, '.' + domena, ''].forEach((d) => {
+            document.cookie = n + '=; Max-Age=0; path=/' + (d ? '; domain=' + d : '');
+          });
+        });
+      }
+
+      function ulozenaVolba() {
+        try {
+          const v = JSON.parse(localStorage.getItem(KLIC) || 'null');
+          if (v && Date.now() - v.cas < PLATNOST) return v.analytika;
+        } catch (e) {}
+        return null;
+      }
+
+      window.mereniprSouhlas = {
+        ulozit(analytika) {
+          try { localStorage.setItem(KLIC, JSON.stringify({ analytika, cas: Date.now() })); } catch (e) {}
+          if (analytika) {
+            spustitAnalytiku();
+          } else {
+            gtag('consent', 'update', { analytics_storage: 'denied' });
+            smazatCookiesGA();
+            // když už analytika v této návštěvě běžela, po odvolání souhlasu ji vypne nové načtení stránky
+            if (nacteno) location.reload();
+          }
+        },
+        volba: ulozenaVolba,
+      };
+
+      if (ulozenaVolba() === true) spustitAnalytiku();
+    </script>
+
+    <div class="cookie-lista" id="cookie-lista" role="dialog" aria-labelledby="cookie-nadpis" aria-describedby="cookie-text" hidden>
+      <div class="obsah">
+        <p class="nadpis" id="cookie-nadpis">Smíme měřit návštěvnost?</p>
+        <p class="text" id="cookie-text">
+          S vaším souhlasem použijeme analytické cookies Google Analytics, abychom věděli, které články lidé čtou.
+          Reklamní cookies nepoužíváme. Volbu můžete kdykoli změnit v patičce webu.{' '}
+          <a href={newsletter.gdprUrl}>Zpracování osobních údajů</a>
+        </p>
+      </div>
+      <div class="tlacitka">
+        <button type="button" class="tl" data-volba="ne">Odmítnout</button>
+        <button type="button" class="tl" data-volba="ano">Povolit</button>
+      </div>
+    </div>
+
+    <script is:inline>
+      (function () {
+        const lista = document.getElementById('cookie-lista');
+        if (!lista || !window.mereniprSouhlas) return;
+        const ukazat = () => { lista.hidden = false; };
+        const skryt = () => { lista.hidden = true; };
+        if (window.mereniprSouhlas.volba() === null) ukazat();
+        lista.querySelectorAll('[data-volba]').forEach((b) => {
+          b.addEventListener('click', () => {
+            window.mereniprSouhlas.ulozit(b.dataset.volba === 'ano');
+            skryt();
+          });
+        });
+        document.querySelectorAll('[data-cookie-nastaveni]').forEach((a) => {
+          a.addEventListener('click', (e) => { e.preventDefault(); ukazat(); lista.querySelector('[data-volba]').focus(); });
+        });
+      })();
+    </script>
+  </>
+)}
+
+<style>
+  .cookie-lista {
+    position: fixed; z-index: 1000; left: 16px; right: 16px; bottom: 16px;
+    max-width: 760px; margin: 0 auto;
+    display: flex; align-items: center; gap: 20px 28px; flex-wrap: wrap;
+    padding: 20px 24px; border-radius: 16px;
+    background: var(--fialova-nejtmavsi); color: rgba(255, 255, 255, .85);
+    box-shadow: 0 12px 40px rgba(20, 8, 40, .35);
+    font-size: 0.9rem; line-height: 1.55;
+  }
+  .cookie-lista[hidden] { display: none; }
+  .obsah { flex: 1 1 340px; }
+  .nadpis { margin: 0 0 4px; color: #fff; font-weight: 700; font-size: 1rem; }
+  .text { margin: 0; }
+  .text a { color: #ff8cc6; }
+  .tlacitka { display: flex; gap: 10px; flex: 0 0 auto; }
+  /* obě tlačítka stejně výrazná – odmítnutí nesmí být schované */
+  .tl {
+    font: inherit; font-weight: 600; cursor: pointer;
+    padding: 10px 22px; border-radius: 999px;
+    border: 2px solid #fff; background: #fff; color: var(--fialova-nejtmavsi);
+  }
+  .tl:hover, .tl:focus-visible { background: var(--magenta); border-color: var(--magenta); color: #fff; }
+  @media (max-width: 520px) { .tlacitka { width: 100%; } .tl { flex: 1; } }
+</style>
