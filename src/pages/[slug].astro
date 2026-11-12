@@ -4,7 +4,7 @@
 import { render } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import KartaClanku from '../components/KartaClanku.astro';
-import { nactiClanky, nactiRozhovory, dobaCteni } from '../lib/utils';
+import { nactiClanky, nactiRozhovory, dobaCteni, fotoNaVysku } from '../lib/utils';
 import { autorka, links } from '../data/site';
 
 export async function getStaticPaths() {
@@ -33,6 +33,7 @@ if (druh === 'clanek') {
     .map((x) => x.c);
 }
 const d: any = entry.data;
+const naVysku = druh === 'rozhovor' && (await fotoNaVysku(d.foto));
 ---
 <Base
   title={d.title}
@@ -70,7 +71,7 @@ const d: any = entry.data;
           <p class="respondent"><strong>{d.jmeno}</strong>{d.pozice}, {d.firma}</p>
           <p class="pripravila">Rozhovor připravila <a href={links.linkedin} target="_blank" rel="noopener">{autorka.jmeno}</a>, CEO agentury <a href={links.adison} target="_blank" rel="noopener">Adison</a> · {minuty} min čtení</p>
         </div>
-        <img src={d.foto} alt={d.jmeno} width="800" height="533" />
+        <img src={d.foto} alt={d.jmeno} class:list={[{ 'na-vysku': naVysku }]} width={naVysku ? 640 : 800} height={naVysku ? 800 : 533} />
       </div>
     </header>
   )}
@@ -164,6 +165,8 @@ const d: any = entry.data;
   .rozhovor-hlavicka .eyebrow { color: #ff8cc6; }
   .rozhovor-hlavicka .drobecky a { color: rgba(255, 255, 255, .75); }
   .rozhovor-hlavicka img { border-radius: var(--radius-velky); aspect-ratio: 3 / 2; object-fit: cover; }
+  /* fotka na výšku: svislý výřez, užší, zarovnaná doprava */
+  .rozhovor-hlavicka img.na-vysku { aspect-ratio: 4 / 5; object-position: top; width: 100%; max-width: 340px; justify-self: end; }
   .respondent { font-size: 1.05rem; color: rgba(255, 255, 255, .85); }
   .respondent strong { display: block; color: #fff; font-size: 1.2rem; }
   .pripravila { font-size: .9rem; color: rgba(255, 255, 255, .65); margin: 0; }
@@ -194,6 +197,7 @@ const d: any = entry.data;
   @media (max-width: 820px) {
     .rozhovor-hlavicka-obal { grid-template-columns: 1fr; }
     .rozhovor-hlavicka img { order: -1; }
+    .rozhovor-hlavicka img.na-vysku { max-width: 240px; justify-self: start; }
   }
   @media (max-width: 560px) {
     .medailonek { grid-template-columns: 1fr; }

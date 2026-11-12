@@ -1,12 +1,13 @@
 ---
 import Base from '../layouts/Base.astro';
 import KartaClanku from '../components/KartaClanku.astro';
-import { nactiClanky, nactiRozhovory } from '../lib/utils';
+import { nactiClanky, nactiRozhovory, fotoNaVysku } from '../lib/utils';
 import { autorka, links } from '../data/site';
 
 const clanky = (await nactiClanky()).slice(0, 3);
 const rozhovory = await nactiRozhovory();
 const hlavniRozhovor = rozhovory[0];
+const hlavniNaVysku = hlavniRozhovor ? await fotoNaVysku(hlavniRozhovor.data.foto) : false;
 
 const vyzvy = [
   'Management často nerozumí metrikám PR nebo jim nepřikládá váhu.',
@@ -156,7 +157,7 @@ const urovne = [
     <section class="sekce sekce-jemna">
       <div class="container rozhovor-upoutavka">
         <a href={`/${hlavniRozhovor.id}`} class="rozhovor-foto">
-          <img src={hlavniRozhovor.data.foto} alt={hlavniRozhovor.data.jmeno} loading="lazy" width="800" height="533" />
+          <img src={hlavniRozhovor.data.foto} alt={hlavniRozhovor.data.jmeno} class:list={[{ 'na-vysku': hlavniNaVysku }]} loading="lazy" width={hlavniNaVysku ? 640 : 800} height={hlavniNaVysku ? 800 : 533} />
         </a>
         <div>
           <span class="eyebrow">Rozhovor</span>
@@ -323,6 +324,7 @@ const urovne = [
   /* rozhovor */
   .rozhovor-upoutavka { display: grid; grid-template-columns: 1fr 1fr; gap: 56px; align-items: center; }
   .rozhovor-foto img { border-radius: var(--radius-velky); aspect-ratio: 3 / 2; object-fit: cover; box-shadow: var(--stin-hover); }
+  .rozhovor-foto img.na-vysku { aspect-ratio: 4 / 5; object-position: top; width: 100%; max-width: 340px; margin-inline: auto; }
   .rozhovor-upoutavka h2 { font-size: clamp(1.4rem, 2.4vw, 1.9rem); }
   .rozhovor-upoutavka h2 a { color: inherit; text-decoration: none; }
   .rozhovor-upoutavka h2 a:hover { color: var(--magenta); }

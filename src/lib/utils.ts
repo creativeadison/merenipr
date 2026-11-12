@@ -23,6 +23,22 @@ export async function nactiClanky() {
   return clanky.sort((a, b) => a.data.poradi - b.data.poradi);
 }
 
+/** Je fotka (cesta z /public, např. /images/marek-vicha.jpg) na výšku? Web pak použije svislý výřez místo širokého. */
+export async function fotoNaVysku(cesta = ''): Promise<boolean> {
+  const sharp = (await import('sharp')).default;
+  // složka public: při sestavení webu z kořene projektu, v náhledu se dá dohledat i od tohoto souboru
+  const kandidati = [`${process.cwd()}/public${cesta}`, new URL(`../../public${cesta}`, import.meta.url)];
+  for (const soubor of kandidati) {
+    try {
+      const { width = 0, height = 0 } = await sharp(soubor instanceof URL ? decodeURIComponent(soubor.pathname).replace(/^\/([A-Za-z]:)/, '$1') : soubor).metadata();
+      return height > width;
+    } catch {
+      // zkusíme další umístění
+    }
+  }
+  return false;
+}
+
 export async function nactiRozhovory() {
   const rozhovory = await getCollection('rozhovory');
   return rozhovory.sort((a, b) => a.data.poradi - b.data.poradi);

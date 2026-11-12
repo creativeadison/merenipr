@@ -29,7 +29,7 @@ const rozhovory = await nactiRozhovory();
       {rozhovory.map((r) => (
         <article class="rozhovor">
           <a href={`/${r.id}`} class="foto" tabindex="-1" aria-hidden="true">
-            <img src={r.data.foto} alt="" loading="lazy" width="800" height="533" />
+            <img src={r.data.foto} alt="" loading="lazy" width="640" height="800" />
           </a>
           <div class="text">
             <p class="kdo"><strong>{r.data.jmeno}</strong>{r.data.pozice}, {r.data.firma}</p>
@@ -58,8 +58,9 @@ const rozhovory = await nactiRozhovory();
 
   .seznam { display: grid; gap: 32px; }
   .rozhovor { display: grid; grid-template-columns: 1fr 1.2fr; gap: 48px; align-items: center; }
-  .foto img { border-radius: var(--radius-velky); aspect-ratio: 3 / 2; object-fit: cover; transition: transform .3s; }
-  .foto { overflow: hidden; border-radius: var(--radius-velky); }
+  /* v seznamu mají všechny fotky jednotný svislý výřez (fotky na šířku se oříznou na střed) */
+  .foto img { border-radius: var(--radius-velky); aspect-ratio: 4 / 5; object-fit: cover; object-position: center top; transition: transform .3s; }
+  .foto { overflow: hidden; border-radius: var(--radius-velky); width: 100%; max-width: 340px; justify-self: center; }
   .foto:hover img { transform: scale(1.03); }
   .kdo { color: var(--text-jemny); font-size: .95rem; }
   .kdo strong { display: block; color: var(--magenta-dark); font-size: 1rem; }
